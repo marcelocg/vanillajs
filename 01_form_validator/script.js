@@ -43,6 +43,7 @@ form.addEventListener('submit', function(e) {
   e.preventDefault();
 
   checkRequired([username, password]);
+  checkLength(username, 3);
   checkLength(password, 6);
 
   if (!isValidEmail(email.value)) {
