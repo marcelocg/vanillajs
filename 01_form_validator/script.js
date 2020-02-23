@@ -4,15 +4,15 @@ const email = document.getElementById("email");
 const password = document.getElementById("password");
 const confirmation_password = document.getElementById("confirmation_password");
 
-function showError(input, message) {
-  const formControl = input.parentElement;
+function showError(field, message) {
+  const formControl = field.parentElement;
   formControl.className = 'form-control error';
   const small = formControl.querySelector('small');
   small.innerText = message;
 }
 
-function showSuccess(input) {
-  const formControl = input.parentElement;
+function showSuccess(field) {
+  const formControl = field.parentElement;
   formControl.className = 'form-control success';
 }
 
@@ -43,6 +43,14 @@ function checkLength(field, min) {
   }
 }
 
+function checkMatch(field1, field2) {
+  if (field2.value !== field1.value) {
+    showError(field2, `${field2.name} does not match!`);
+  } else {
+    showSuccess(confirmation_password);
+  }
+
+}
 form.addEventListener('submit', function(e) {
   e.preventDefault();
 
@@ -53,10 +61,6 @@ form.addEventListener('submit', function(e) {
 
   checkEmailFormat(email);
 
- if (confirmation_password.value != password.value) {
-    showError(confirmation_password, 'Passwords do not match!');
-  } else {
-    showSuccess(confirmation_password);
-  }
+  checkMatch(password, confirmation_password);
 
 })
