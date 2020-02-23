@@ -31,10 +31,19 @@ function checkRequired(fields) {
   });
 }
 
+function checkLength(field, min) {
+  if (field.value.trim().length < min) {
+    showError(field, `${field.name} must be at least ${min} characters`);
+  } else {
+    showSuccess(field);
+  }
+}
+
 form.addEventListener('submit', function(e) {
   e.preventDefault();
 
   checkRequired([username, password]);
+  checkLength(password, 6);
 
   if (!isValidEmail(email.value)) {
     showError(email, email.name + ' is not valid!');
