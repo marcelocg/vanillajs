@@ -16,9 +16,13 @@ function showSuccess(input) {
   formControl.className = 'form-control success';
 }
 
-function isValidEmail(email) {
+function checkEmailFormat(field) {
   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(email).toLowerCase());
+  if (re.test(field.value.trim().toLowerCase())) {
+    showSuccess(field);
+  } else {
+    showError(field, `${field.name} is not valid!`);
+  }
 }
 
 function checkRequired(fields) {
@@ -42,15 +46,12 @@ function checkLength(field, min) {
 form.addEventListener('submit', function(e) {
   e.preventDefault();
 
-  checkRequired([username, password]);
+  checkRequired([username, email, password]);
+
   checkLength(username, 3);
   checkLength(password, 6);
 
-  if (!isValidEmail(email.value)) {
-    showError(email, email.name + ' is not valid!');
-  } else {
-    showSuccess(email);
-  }
+  checkEmailFormat(email);
 
  if (confirmation_password.value != password.value) {
     showError(confirmation_password, 'Passwords do not match!');
